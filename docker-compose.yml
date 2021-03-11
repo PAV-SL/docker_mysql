@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
 
-  db:
+  mysql:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -13,10 +13,16 @@ services:
       - 33060:33060
       
     networks: 
-      - overlay
+      - devnet
     volumes:
-      - ./volumes/mysql/8.0:/var/lib/mysql  
+      - mysql-storage:/var/lib/mysql  
       - ./mysql_config/my.cnf:/etc/mysql/my.cnf
 
 networks:
-  overlay:
+  devnet:
+    external:
+      name: devnet
+volumes:
+  mysql-storage:
+    external:
+      name: mysql-storage
